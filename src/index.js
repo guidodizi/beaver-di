@@ -5,8 +5,13 @@ import fs from 'fs';
 import fnParams from 'get-parameter-names';
 
 class Beaver {
-  constructor({ configPath } = { configPath: '.beaverrc' }) {
-    this.configPath = configPath;
+  /**
+   *
+   * @param {object} options
+   * @param {string} options.configPath - path to configuration file
+   */
+  constructor({ configPath } = {}) {
+    this.configPath = configPath || '.beaver.json';
     this.dependencies = {};
     this.factories = {};
 
@@ -74,10 +79,14 @@ class Beaver {
    * @summary hydrate factories from config path
    */
   _hydrate() {
-    const data = fs.readFileSync(
-      path.resolve(process.cwd(), this.configPath),
-      'utf8',
-    );
+    const configPath = path.resolve(process.cwd(), this.configPath);
+    if (!fs.existsSync(configPath)) {
+      throw new Error(
+        'Create a .beaver.json file to specifiy factories for dependencies or instantiate Beaver with configPath option',
+      );
+    }
+
+    const data = fs.readFileSync(configPath, 'utf8');
     try {
       const factories = JSON.parse(data);
       for (let name in factories) {
