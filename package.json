@@ -4,6 +4,7 @@
   "description": "Dependency injection container for NodeJS",
   "main": "src/index.js",
   "scripts": {
+    "babel": "./node_modules/.bin/babel-node --",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,9 +27,11 @@
     "@babel/core": "^7.8.4",
     "@babel/node": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
+    "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.10.0",
+    "mocha": "^7.0.1",
     "prettier": "^1.19.1"
   },
   "dependencies": {

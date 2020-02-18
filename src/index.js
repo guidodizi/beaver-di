@@ -12,7 +12,7 @@ class Beaver {
    * @param {Function} factory - factory function to create an instance of dependency
    */
   factory(name, factory) {
-    factories[name] = factory;
+    this.factories[name] = factory;
   }
 
   /**
@@ -21,7 +21,7 @@ class Beaver {
    * @param {*} dependency - instance of dependency.
    */
   register(name, dependency) {
-    dependencies[name] = dependency;
+    this.dependencies[name] = dependency;
   }
 
   /**
@@ -29,17 +29,17 @@ class Beaver {
    * @param {string} name - identifier of dependency
    */
   get(name) {
-    if (!dependencies[name]) {
-      const factory = factories[name];
-      dependencies[name] = factory && this.inject(factory);
+    if (!this.dependencies[name]) {
+      const factory = this.factories[name];
+      this.dependencies[name] = factory && this._inject(factory);
 
-      if (!dependencies[name]) {
+      if (!this.dependencies[name]) {
         throw new Error(`Cannot resolve dependecy ${name}`);
       }
 
-      return dependencies[name];
+      return this.dependencies[name];
     }
-    return dependencies[name];
+    return this.dependencies[name];
   }
 
   /**
@@ -48,10 +48,10 @@ class Beaver {
    */
   _inject(factory) {
     // dependencies for selected factory
-    const args = fnParams(factory).map((dep) => container.get(dep));
+    const args = fnParams(factory).map((dep) => this.get(dep));
 
     return factory(...args);
   }
 }
 
-module.exports = () => new Beaver();
+export default () => new Beaver();
