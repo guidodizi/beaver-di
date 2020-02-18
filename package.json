@@ -1,6 +1,6 @@
 {
   "name": "beaver-di",
-  "version": "1.0.0",
+  "version": "1.0.1-0",
   "description": "Dependency injection container for NodeJS",
   "main": "src/index.js",
   "scripts": {
