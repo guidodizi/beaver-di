@@ -1,4 +1,5 @@
 # Beaver - Dependency Injection Container for NodeJS
+Lean dependency injection container for NodeJS, which helps instantiating dependencies and can hold up environmental or constant values
 
 <p align="center">
   <img src="https://media2.giphy.com/media/8ZlAW7PcMSnDy/giphy.gif?cid=5a38a5a24bdd640f726494f54d4cd99fddda3a779d2c1014&rid=giphy.gif">
