@@ -1,9 +1,16 @@
+'use strict';
+
+import path from 'path';
+import fs from 'fs';
 import fnParams from 'get-parameter-names';
 
 class Beaver {
-  constructor() {
+  constructor({ configPath } = { configPath: '.beaverrc' }) {
+    this.configPath = configPath;
     this.dependencies = {};
     this.factories = {};
+
+    this._hydrate();
   }
 
   /**
@@ -12,6 +19,9 @@ class Beaver {
    * @param {Function} factory - factory function to create an instance of dependency
    */
   factory(name, factory) {
+    if (this.factories[name]) {
+      throw new Error('There is already a factory for the name: ', name);
+    }
     this.factories[name] = factory;
   }
 
@@ -21,6 +31,12 @@ class Beaver {
    * @param {*} dependency - instance of dependency.
    */
   register(name, dependency) {
+    if (this.dependencies[name]) {
+      throw new Error(
+        'There is already a dependency instance for the name: ',
+        name,
+      );
+    }
     this.dependencies[name] = dependency;
   }
 
@@ -31,6 +47,7 @@ class Beaver {
   get(name) {
     if (!this.dependencies[name]) {
       const factory = this.factories[name];
+
       this.dependencies[name] = factory && this._inject(factory);
 
       if (!this.dependencies[name]) {
@@ -52,6 +69,28 @@ class Beaver {
 
     return factory(...args);
   }
+
+  /**
+   * @summary hydrate factories from config path
+   */
+  _hydrate() {
+    const data = fs.readFileSync(
+      path.resolve(process.cwd(), this.configPath),
+      'utf8',
+    );
+    try {
+      const factories = JSON.parse(data);
+      for (let name in factories) {
+        this.factories[name] = require(path.resolve(
+          process.cwd(),
+          factories[name],
+        )).default;
+      }
+    } catch (err) {
+      console.log(err);
+      throw new Error(`Couldn't hydrate factories`);
+    }
+  }
 }
 
-export default new Beaver();
+export default (opts) => new Beaver(opts);
