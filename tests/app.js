@@ -1,9 +1,7 @@
-import beaverContainer from '../src';
+import beaver from '../src';
 import factory1 from './factory1';
 import factory2 from './factory2';
 import factory3 from './factory3';
-
-const beaver = beaverContainer();
 
 beaver.factory('factory3', factory3);
 beaver.factory('factory2', factory2);

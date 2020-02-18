@@ -54,4 +54,4 @@ class Beaver {
   }
 }
 
-export default () => new Beaver();
+export default new Beaver();
