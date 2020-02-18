@@ -1,0 +1,37 @@
+{
+  "name": "beaver",
+  "version": "1.0.0",
+  "description": "Dependency injection container for NodeJS",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guidodizi/beaver.git"
+  },
+  "keywords": [
+    "di",
+    "dependency",
+    "injection",
+    "container"
+  ],
+  "author": "Guido Dizioli",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/guidodizi/beaver/issues"
+  },
+  "homepage": "https://github.com/guidodizi/beaver#readme",
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/node": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.10.0",
+    "prettier": "^1.19.1"
+  },
+  "dependencies": {
+    "get-parameter-names": "^0.3.0"
+  }
+}
