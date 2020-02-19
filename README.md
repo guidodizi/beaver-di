@@ -1,5 +1,5 @@
 # Beaver - Dependency Injection Container for NodeJS
-Lean dependency injection container for NodeJS, which helps instantiating dependencies and can hold up environmental or constant values
+Lean dependency injection container for NodeJS based on parameter naming, which helps instantiating dependencies and can hold up environmental or constant values
 
 <p align="center">
   <img src="https://media2.giphy.com/media/8ZlAW7PcMSnDy/giphy.gif?cid=5a38a5a24bdd640f726494f54d4cd99fddda3a779d2c1014&rid=giphy.gif">
@@ -7,26 +7,51 @@ Lean dependency injection container for NodeJS, which helps instantiating depend
 
 ## Usage
 
+Define a `beaver.config.js` file where we instantiate the Dependency Injection Container. **This will be the only place where coupling occurs**
+
+```javascript
+// ./beaver.config.js
+import userController from './userController';
+import userService from './userService';
+import database from './database';
+import beaver from 'beaver';
+
+export default beaver({
+  userController,
+  userService,
+  database,
+  helloString: 'helloWorld',
+  db: {
+    connectionString: 'postgres://',
+  },
+});
+
+```
+
+Now just require this file at the top level of you application. 
+
+Remember that as this is a property naming based dependency injection, meaning that you will need to match your dependency by name on the object passed to beaver
 
 ```javascript
 // ./userController.js
-export default (userService) => {
-  userService.method1();
-  ...
-}
-```
 
-```javascript
-import beaver from '../src';
-// example
-import userController from './userController';
-import userService from './userService';
+// we defined on beaver.config.js userService module on the property userService
+export default (userService, helloString) => {
+  // this module does not depend on '/userService.js' but it uses it by the dependecy injected argument
+  
+  const createUser = async (name) => {
+    await userService.create({name})
+    ...
+  };
+  
+  const salute = () => helloString;
+  
+  return {
+    createUser,
+    salute,
+  };
+};
 
-beaver.factory('userController', userController);
-beaver.factory('userService', userService);
-
-const ctrl = beaver.get('userController')
-// ctrl is now instantiated with all its dependencies
 ```
 
 ## Methods
