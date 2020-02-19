@@ -88,12 +88,16 @@ class Beaver {
 
     const data = fs.readFileSync(configPath, 'utf8');
     try {
-      const factories = JSON.parse(data);
-      for (let name in factories) {
-        this.factories[name] = require(path.resolve(
-          process.cwd(),
-          factories[name],
-        )).default;
+      const data = JSON.parse(data);
+      for (let name in data) {
+        const value = require(path.resolve(process.cwd(), factories[name]))
+          .default;
+
+        if (typeof value === 'function') {
+          this.factories[name] = value;
+          return;
+        }
+        this.dependencies[name] = value;
       }
     } catch (err) {
       console.log(err);
