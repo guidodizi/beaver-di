@@ -7,15 +7,22 @@ import fnParams from 'get-parameter-names';
 class Beaver {
   /**
    *
+   * @param {object} inital - initalizing object containing key, values to either facotries or instances of dependencies
    * @param {object} options
    * @param {string} options.configPath - path to configuration file
    */
-  constructor({ configPath } = {}) {
-    this.configPath = configPath || '.beaver.json';
+  constructor(inital) {
     this.dependencies = {};
     this.factories = {};
 
-    this._hydrate();
+    for (let key in inital) {
+      const value = inital[key];
+      if (typeof value === 'function') {
+        this.factories[key] = value;
+      } else {
+        this.dependencies[key] = value;
+      }
+    }
   }
 
   /**
@@ -73,36 +80,6 @@ class Beaver {
     const args = fnParams(factory).map((dep) => this.get(dep));
 
     return factory(...args);
-  }
-
-  /**
-   * @summary hydrate factories from config path
-   */
-  _hydrate() {
-    const configPath = path.resolve(process.cwd(), this.configPath);
-    if (!fs.existsSync(configPath)) {
-      throw new Error(
-        'Create a .beaver.json file to specifiy factories for dependencies or instantiate Beaver with configPath option',
-      );
-    }
-
-    const data = fs.readFileSync(configPath, 'utf8');
-    try {
-      const data = JSON.parse(data);
-      for (let name in data) {
-        const value = require(path.resolve(process.cwd(), factories[name]))
-          .default;
-
-        if (typeof value === 'function') {
-          this.factories[name] = value;
-          return;
-        }
-        this.dependencies[name] = value;
-      }
-    } catch (err) {
-      console.log(err);
-      throw new Error(`Couldn't hydrate factories`);
-    }
   }
 }
 
