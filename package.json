@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "babel": "./node_modules/.bin/babel-node --",
+    "start": "nodemon --exec npm run babel --",
     "build": "babel src --out-dir lib --source-maps",
     "test": "mocha -r @babel/register"
   },
@@ -14,9 +15,8 @@
   },
   "keywords": [
     "di",
-    "dependency",
-    "injection",
-    "container"
+    "dependency injection container",
+    "dependecy injection"
   ],
   "author": "Guido Dizioli",
   "license": "MIT",
@@ -30,11 +30,14 @@
     "@babel/node": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
     "@babel/register": "^7.8.3",
+    "body-parser": "^1.19.0",
     "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.10.0",
+    "express": "^4.17.1",
     "mocha": "^7.0.1",
+    "nodemon": "^2.0.2",
     "prettier": "^1.19.1"
   },
   "engines": {
