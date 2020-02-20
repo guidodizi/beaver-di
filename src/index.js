@@ -18,9 +18,9 @@ class Beaver {
     for (let key in inital) {
       const value = inital[key];
       if (typeof value === 'function') {
-        this.factories[key] = value;
+        this.factories[Symbol.for(key)] = value;
       } else {
-        this.dependencies[key] = value;
+        this.dependencies[Symbol.for(key)] = value;
       }
     }
   }
@@ -31,10 +31,10 @@ class Beaver {
    * @param {Function} factory - factory function to create an instance of dependency
    */
   factory(name, factory) {
-    if (this.factories[name]) {
+    if (this.factories[Symbol.for(name)]) {
       throw new Error('There is already a factory for the name: ', name);
     }
-    this.factories[name] = factory;
+    this.factories[Symbol.for(name)] = factory;
   }
 
   /**
@@ -43,7 +43,7 @@ class Beaver {
    * @param {*} dependency - instance of dependency.
    */
   register(name, dependency) {
-    if (this.dependencies[name]) {
+    if (this.dependencies[Symbol.for(name)]) {
       throw new Error(
         'There is already a dependency instance for the name: ',
         name,
@@ -57,18 +57,18 @@ class Beaver {
    * @param {string} name - identifier of dependency
    */
   get(name) {
-    if (!this.dependencies[name]) {
-      const factory = this.factories[name];
+    if (!this.dependencies[Symbol.for(name)]) {
+      const factory = this.factories[Symbol.for(name)];
 
-      this.dependencies[name] = factory && this._inject(factory);
+      this.dependencies[Symbol.for(name)] = factory && this._inject(factory);
 
-      if (!this.dependencies[name]) {
+      if (!this.dependencies[Symbol.for(name)]) {
         throw new Error(`Cannot resolve dependecy ${name}`);
       }
 
-      return this.dependencies[name];
+      return this.dependencies[Symbol.for(name)];
     }
-    return this.dependencies[name];
+    return this.dependencies[Symbol.for(name)];
   }
 
   /**
