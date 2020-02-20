@@ -8,11 +8,15 @@ Lean dependency injection container for NodeJS based on parameter naming, which 
   <img src="https://media2.giphy.com/media/8ZlAW7PcMSnDy/giphy.gif?cid=5a38a5a24bdd640f726494f54d4cd99fddda3a779d2c1014&rid=giphy.gif">
 </p>
 
+
+
 ## Installation
 You can get the latest release using npm:
 ```bash
 $ npm install beaver-di
 ```
+
+
 
 ## Usage
 
@@ -62,13 +66,17 @@ export default (userService, helloString) => {
 };
 
 ```
-### Examples
+
+
+## Examples
 
 You can find a simple example of how to build an [Express](https://github.com/expressjs/express) app using Beaver DI [in the examples directory](https://github.com/guidodizi/beaver-di/tree/master/examples/expressServer)
 
 <p align="center">
   <img src="https://camo.githubusercontent.com/fc61dcbdb7a6e49d3adecc12194b24ab20dfa25b/68747470733a2f2f692e636c6f756475702e636f6d2f7a6659366c4c376546612d3330303078333030302e706e67"/>
 </p>
+
+
 
 ## Methods
 #### `beaver.get(name)`
