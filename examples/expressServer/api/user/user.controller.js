@@ -5,7 +5,12 @@ export default (userService) => {
     return res.status(200).json({ salute });
   };
 
+  const echo = (req, res) => {
+    return res.status(200).json(req.query);
+  };
+
   return {
     salute,
+    echo,
   };
 };
