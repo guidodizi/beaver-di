@@ -1,6 +1,5 @@
-import funcitonalTests from './testSuites/functional.spec';
-import initializationTests from './testSuites/initialization.spec';
+import proj1 from './proj1/test.spec';
+import proj2 from './proj2/test.spec';
 
-describe('Testing that modules get injected correctly', funcitonalTests);
-// DEPRECATED
-// describe('Testing that initialization is done correctly', initializationTests);
+describe('PROJ1 - Testing that modules get injected correctly', proj1);
+describe('PROJ2 - Circular dependencies', proj2);
