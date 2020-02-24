@@ -5,20 +5,20 @@ import { keying } from './utils';
 class Beaver {
   /**
    *
-   * @param {object} inital - initalizing object containing key, values to either
+   * @param {object} initial - initializing object containing key, values to either
    * factories or instances of dependencies
    * @param {object} options
    * @param {string} options.configPath - path to configuration file
    */
-  constructor(inital) {
+  constructor(initial) {
     this.dependencies = new Map();
     this.factories = new Map();
 
     // Set initial state
-    const keys = keying(inital);
+    const keys = keying(initial);
 
     keys.forEach((key) => {
-      const value = _.get(inital, key);
+      const value = _.get(initial, key);
 
       if (typeof value === 'function') {
         this.factory(key, value);
@@ -116,4 +116,4 @@ class Beaver {
   }
 }
 
-export default (opts) => new Beaver(opts);
+export default (initial) => new Beaver(initial);
