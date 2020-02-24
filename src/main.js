@@ -10,21 +10,20 @@ class Beaver {
    * @param {object} options
    * @param {string} options.configPath - path to configuration file
    */
-  constructor(initial) {
-    this.dependencies = new Map();
+  constructor(factories, dependencies) {
     this.factories = new Map();
+    this.dependencies = dependencies;
 
     // Set initial state
-    const keys = keying(initial);
+    const keys = keying(factories);
 
     keys.forEach((key) => {
-      const value = _.get(initial, key);
+      const value = _.get(factories, key);
 
-      if (typeof value === 'function') {
-        this.factory(key, value);
-      } else {
-        this.register(key, value);
+      if (typeof value !== 'function') {
+        throw new Error('Factories object can only contain function values');
       }
+      this.factory(key, value);
     });
   }
 
@@ -48,13 +47,13 @@ class Beaver {
    * @param {*} dependency - instance of dependency.
    */
   register(name, dependency) {
-    if (this.dependencies.get(name)) {
+    if (_.get(this.dependencies, name)) {
       throw new Error(
         'There is already a dependency instance for the name: ',
         name,
       );
     }
-    this.dependencies.set(name, dependency);
+    _.set(this.dependencies, name, dependency);
   }
 
   /**
@@ -73,22 +72,24 @@ class Beaver {
         `Circular dependency detected: ${circularity} => ${name}`,
       );
     }
-    if (!this.dependencies.get(name)) {
-      const factory = this.factories.get(name);
+
+    if (!_.get(this.dependencies, name)) {
       dependencyPrecedence.push(name);
 
-      this.dependencies.set(
+      const factory = this.factories.get(name);
+      _.set(
+        this.dependencies,
         name,
         factory && this._inject(factory, dependencyPrecedence),
       );
 
-      if (!this.dependencies.get(name)) {
+      if (!_.get(this.dependencies, name)) {
         throw new Error(`Cannot resolve dependecy ${name}`);
       }
 
-      return this.dependencies.get(name);
+      return _.get(this.dependencies, name);
     }
-    return this.dependencies.get(name);
+    return _.get(this.dependencies, name);
   }
 
   /**
@@ -100,7 +101,7 @@ class Beaver {
   _inject(factory, dependencyPrecedence) {
     if (factory.beaver) {
       const params = { ...factory.beaver };
-      Object.keys(factory.beaver).forEach((factoryDep) => {
+      Object.keys(params).forEach((factoryDep) => {
         params[factoryDep] = this.get(params[factoryDep], dependencyPrecedence);
       });
 
@@ -116,4 +117,4 @@ class Beaver {
   }
 }
 
-export default (initial) => new Beaver(initial);
+export default (...args) => new Beaver(...args);

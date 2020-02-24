@@ -5,4 +5,4 @@ const factory2 = ({ module }) => ({
   derive: () => `${module.salute()} - called from module 2`,
 });
 
-export default connect(factory2, { module: 'value2.module3A' });
+export default connect(factory2, { module: 'module3' });
