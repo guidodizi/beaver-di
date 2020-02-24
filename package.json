@@ -7,6 +7,8 @@
     "babel": "./node_modules/.bin/babel-node --",
     "start": "nodemon --exec npm run babel --",
     "build": "babel src --out-dir lib --source-maps",
+    "lint": "eslint --ignore-path .gitignore .",
+    "lint:fix": "eslint --ignore-path .gitignore --fix",
     "test": "mocha -r @babel/register"
   },
   "repository": {
@@ -40,8 +42,13 @@
     "express": "^4.17.1",
     "mocha": "^7.0.1",
     "nodemon": "^2.0.2",
+    "pre-commit": "^1.2.2",
     "prettier": "^1.19.1"
   },
+  "pre-commit": [
+    "lint",
+    "test"
+  ],
   "engines": {
     "npm": "6.13.4",
     "node": "12.14.1"

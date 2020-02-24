@@ -7,8 +7,14 @@
     "no-console": "off",
     "implicit-arrow-linebreak": "off",
     "no-underscore-dangle": "off",
-    "import/no-extraneous-dependencies": {
-      "devDependencies": true
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+  },
+  "overrides": [
+    {
+      "files": ["*.spec.js"],
+      "rules": {
+        "no-undef": "off"
+      }
     }
-  }
+  ]
 }

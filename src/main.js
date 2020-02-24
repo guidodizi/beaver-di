@@ -65,9 +65,10 @@ class Beaver {
    */
   get(name, dependencyPrecedence = []) {
     if (dependencyPrecedence.includes(name)) {
-      const circularity = dependencyPrecedence.reduce((acc, curr) => {
-        return `${acc} => ${curr}`;
-      }, dependencyPrecedence.shift());
+      const circularity = dependencyPrecedence.reduce(
+        (acc, curr) => `${acc} => ${curr}`,
+        dependencyPrecedence.shift(),
+      );
       throw new Error(
         `Circular dependency detected: ${circularity} => ${name}`,
       );

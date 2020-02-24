@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { expect, assert } from 'chai';
 import beaver from './beavertest.config';
 
