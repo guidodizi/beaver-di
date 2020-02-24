@@ -1,11 +1,11 @@
 export default (app) => {
-  app.use((req, res, next) => {
+  app.use(() => {
     const error = new Error('Endpoint not found');
     error.status = 404;
     throw error;
   });
 
-  app.use((err, req, res, next) => {
+  app.use((err, req, res) => {
     console.error(err);
     return res.status(err.status || 500).json({
       error: {

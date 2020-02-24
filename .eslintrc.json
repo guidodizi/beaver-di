@@ -4,7 +4,11 @@
   "rules": {
     "prettier/prettier": ["error"],
     "function-paren-newline": "off",
+    "no-console": "off",
     "implicit-arrow-linebreak": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "import/no-extraneous-dependencies": {
+      "devDependencies": true
+    }
   }
 }

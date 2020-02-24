@@ -1,13 +1,11 @@
 export default (userService) => {
   const salute = (req, res) => {
-    const salute = userService.salute();
+    const result = userService.salute();
 
-    return res.status(200).json({ salute });
+    return res.status(200).json({ result });
   };
 
-  const echo = (req, res) => {
-    return res.status(200).json(req.query);
-  };
+  const echo = (req, res) => res.status(200).json(req.query);
 
   return {
     salute,
