@@ -60,12 +60,26 @@ class Beaver {
   /**
    * @summary retrieve instance of dependency
    * @param {string} name - identifier of dependency
+   * @param {array} dependencyPrecedence - array of dependency tree being called until now,
+   * used to check for circular deps
    */
-  get(name) {
+  get(name, dependencyPrecedence = []) {
+    if (dependencyPrecedence.includes(name)) {
+      const circularity = dependencyPrecedence.reduce((acc, curr) => {
+        return `${acc} => ${curr}`;
+      }, dependencyPrecedence.shift());
+      throw new Error(
+        `Circular dependency detected: ${circularity} => ${name}`,
+      );
+    }
     if (!this.dependencies.get(name)) {
       const factory = this.factories.get(name);
+      dependencyPrecedence.push(name);
 
-      this.dependencies.set(name, factory && this._inject(factory));
+      this.dependencies.set(
+        name,
+        factory && this._inject(factory, dependencyPrecedence),
+      );
 
       if (!this.dependencies.get(name)) {
         throw new Error(`Cannot resolve dependecy ${name}`);
@@ -79,19 +93,23 @@ class Beaver {
   /**
    * @summary excecutes factory function to create instance of dependency.
    * @param {Function} factory - factory function to instantiate dependency
+   * @param {array} dependencyPrecedence - array of dependency tree being called until now,
+   * used to check for circular deps
    */
-  _inject(factory) {
+  _inject(factory, dependencyPrecedence) {
     if (factory.beaver) {
       const params = { ...factory.beaver };
       Object.keys(factory.beaver).forEach((factoryDep) => {
-        params[factoryDep] = this.get(params[factoryDep]);
+        params[factoryDep] = this.get(params[factoryDep], dependencyPrecedence);
       });
 
       return factory(params);
     }
 
     // dependencies for selected factory
-    const args = fnParams(factory).map((dep) => this.get(dep));
+    const args = fnParams(factory).map((dep) =>
+      this.get(dep, dependencyPrecedence),
+    );
 
     return factory(...args);
   }
