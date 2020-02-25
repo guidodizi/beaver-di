@@ -17,8 +17,12 @@
   },
   "keywords": [
     "di",
+    "dic",
+    "ioc",
     "dependency injection container",
-    "dependecy injection"
+    "inversion of control container",
+    "dependecy injection",
+    "inversion of control"
   ],
   "author": "Guido Dizioli",
   "license": "MIT",
@@ -51,9 +55,12 @@
     "test"
   ],
   "engines": {
-    "npm": "6.13.4",
-    "node": "12.14.1"
+    "npm": ">=6.13.4",
+    "node": ">=12.14.1"
   },
+  "files": [
+    "lib"
+  ],
   "dependencies": {
     "get-parameter-names": "^0.3.0",
     "lodash": "^4.17.15"
