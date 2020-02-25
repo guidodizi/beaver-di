@@ -1,5 +1,5 @@
 # Beaver - Dependency Injection Container for NodeJS
-[![](https://img.shields.io/npm/v/beaver-di)](https://www.npmjs.com/package/beaver-di)
+[![](https://img.shields.io/npm/v/beaver-di?color=success)](https://www.npmjs.com/package/beaver-di)
 
 Lean dependency injection container for NodeJS based on parameter naming, which helps instantiating and referencing dependencies.
   
