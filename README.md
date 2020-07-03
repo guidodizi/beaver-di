@@ -1,5 +1,5 @@
 # Beaver - Dependency Injection Container for NodeJS
-[![](https://img.shields.io/npm/v/beaver-di)](https://www.npmjs.com/package/beaver-di)
+[![](https://img.shields.io/npm/v/beaver-di?color=success)](https://www.npmjs.com/package/beaver-di)
 
 Lean dependency injection container for NodeJS based on parameter naming, which helps instantiating and referencing dependencies.
   
@@ -181,14 +181,13 @@ Used to provide flexibility when injecting properties into a factory.
 
 **Notes**
 
-- You will need to restructure the parameters in factory to be an **object** (this object will contain the dependencies).
 - Values in connect method **need to be a string** to access dependency injected in a object-like structure.
 - When trying to access a dependency which is in a object-like structure, you will always need the `connect` API (in this example, the `connectString` parameter.
 ```javascript
 import { connect } from 'beaver-di';
 
 
-const factory = ({ service, controller, connectionString }) => {
+const factory = (connectionString, service, controller) => {
   ...
 };
 
