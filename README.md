@@ -25,8 +25,8 @@ There are two type of values we are going to hold in our Dependency Injection Co
 
 |Name|Description|
 |:------|:--------|
-|**factories**| functions used to instantiate a dependency, typically you will use a factory when instantianting a dependency depends on other dependencies|
-|**dependencies** | values that are fixed dependencies, typically environment variables or constant values|
+|**factories**| Functions used to instantiate a dependency, typically you will use a factory when instantianting a dependency that depends on other dependencies|
+|**dependencies** | Values that are fixed dependencies, typically environment variables or constant values|
 
 
 ## Usage
