@@ -43,11 +43,13 @@ import database from './database';
 import beaver from 'beaver-di';
 
 export default beaver(
+  // Factories
   {
     userController,
     userService,
     database,
   }, 
+  // Dependencies
   {
     helloString: 'helloWorld',
     db: {
